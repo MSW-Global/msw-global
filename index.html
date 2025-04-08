@@ -3,23 +3,74 @@
 <html lang="nl">
 <head>
   <meta charset="UTF-8">
-  <title>MWS Demo - Global Counter</title>
+  <title>MWS Demo - Volledige Versie</title>
   <style>
     body { background: #0f0f11; color: #00ff99; font-family: Arial, sans-serif; padding: 2rem; text-align: center; }
-    .counter { font-size: 1.5rem; margin-top: 2rem; }
-    img { max-width: 200px; margin: 1rem auto; display: block; }
+    h1 { font-size: 2rem; margin-bottom: 1rem; }
+    section { margin: 2rem auto; max-width: 700px; }
+    .card { border: 1px solid #00ff99; padding: 1rem; margin: 1rem 0; border-radius: 0.5rem; }
+    img { max-width: 150px; display: block; margin: 1rem auto; }
   </style>
 </head>
 <body>
   <img src="MWS_logo_compressed_under1MB.jpg" alt="MWS Logo">
-  <h1>Mondiale Waakhondensysteem</h1>
-  <p>Welkom op de demo van het Global Monitor System (MWS).</p>
-  <div class="counter">
-    Wereldwijde bezoeken: <span id="globalCounter">...</span>
-  </div>
+  <h1>Mondiale Waakhondensysteem (MWS)</h1>
+  <p>Welkom op de demo van het Global Monitor System.</p>
+
+  <section>
+    <h2>🌐 Wereldwijde Bezoekersteller</h2>
+    <p>Live telling: <span id="globalCounter">...</span></p>
+  </section>
+
+  <section>
+    <h2>📊 Scorekaart Toplanden</h2>
+    <div class="card">België – Transparantie – Score: 76 – Stemmen: 12</div>
+    <div class="card">Japan – Milieu – Score: 69 – Stemmen: 9</div>
+    <div class="card">Brazilië – Corruptie – Score: 58 – Stemmen: 6</div>
+  </section>
+
+  <section>
+    <h2>🧮 Bereken zelf een accountability score</h2>
+    <form onsubmit="event.preventDefault(); calcScore();">
+      <input type="number" min="0" max="20" placeholder="Transparantie" id="t" required><br>
+      <input type="number" min="0" max="20" placeholder="Mensenrechten" id="m" required><br>
+      <input type="number" min="0" max="20" placeholder="Vrije pers" id="v" required><br>
+      <input type="number" min="0" max="20" placeholder="Corruptie" id="c" required><br>
+      <input type="number" min="0" max="20" placeholder="Milieu" id="e" required><br>
+      <button type="submit">Bereken score</button>
+    </form>
+    <p id="resultaat"></p>
+  </section>
+
+  <section>
+    <h2>📝 Laat jouw score achter</h2>
+    <form onsubmit="event.preventDefault(); alert('Score ingezonden!');">
+      <input type="text" placeholder="Land/regio" required><br>
+      <input type="number" min="0" max="100" placeholder="Score" required><br>
+      <select required>
+        <option value="">Kies een thema</option>
+        <option>Transparantie</option>
+        <option>Mensenrechten</option>
+        <option>Vrije pers</option>
+        <option>Corruptie</option>
+        <option>Milieu</option>
+      </select><br>
+      <button type="submit">Verzenden</button>
+    </form>
+  </section>
 
   <script>
-    fetch('https://api.countapi.xyz/hit/mwsdemo/visits')
+    function calcScore() {
+      let t = parseInt(document.getElementById('t').value) || 0;
+      let m = parseInt(document.getElementById('m').value) || 0;
+      let v = parseInt(document.getElementById('v').value) || 0;
+      let c = parseInt(document.getElementById('c').value) || 0;
+      let e = parseInt(document.getElementById('e').value) || 0;
+      let totaal = t + m + v + c + e;
+      document.getElementById('resultaat').innerText = "Jouw score: " + totaal + "/100";
+    }
+
+    fetch('https://api.countapi.xyz/hit/mwsdemo/fullversion')
       .then(response => response.json())
       .then(data => {
         document.getElementById('globalCounter').innerText = data.value;

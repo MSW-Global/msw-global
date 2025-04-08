@@ -1,0 +1,27 @@
+
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+  <meta charset="UTF-8">
+  <title>MWS Demo met Bezoekerscounter</title>
+  <style>
+    body { background: #0f0f11; color: #00ff99; font-family: Arial, sans-serif; padding: 2rem; }
+    .counter { font-size: 1.5rem; margin-top: 2rem; }
+  </style>
+  <script>
+    document.addEventListener("DOMContentLoaded", function() {
+      let count = localStorage.getItem("visitorCount") || 0;
+      count++;
+      localStorage.setItem("visitorCount", count);
+      document.getElementById("visitorCount").innerText = count;
+    });
+  </script>
+</head>
+<body>
+  <h1>Mondiale Waakhondensysteem</h1>
+  <p>Welkom op de demo van het Global Monitor System (MWS).</p>
+  <div class="counter">
+    Aantal bezoeken vanaf dit toestel: <span id="visitorCount">...</span>
+  </div>
+</body>
+</html>
